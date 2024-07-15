@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-//import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Widget DefaultButton({
   required String text,
@@ -121,6 +121,8 @@ Widget DefaultTextForm({
       controller: controller,
       keyboardType: type,
       decoration: InputDecoration(
+        errorStyle: TextStyle(
+            color: Colors.redAccent, fontSize: 16, fontWeight: FontWeight.w400),
         labelStyle: TextStyle(color: Colors.white),
         hintStyle: TextStyle(color: Colors.white),
         focusedBorder: OutlineInputBorder(
@@ -139,7 +141,7 @@ Widget DefaultTextForm({
             : null,
       ),
     );
-/*
+
 void ShowToast({
   required String text,
   required ToastStates state,
@@ -170,4 +172,3 @@ Color chooseColorToast(ToastStates state) {
   }
   return color;
 }
-*/

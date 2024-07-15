@@ -15,7 +15,7 @@ class LoginScreen extends StatefulWidget {
 
 TextEditingController emailController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
-GlobalKey formKey = GlobalKey<FormState>();
+GlobalKey<FormState> formKey = GlobalKey();
 late final FirebaseAuth auth;
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -59,6 +59,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 20,
                 ),
                 DefaultTextForm(
+                    validate: (value) {
+                      if (value!.isEmpty) {
+                        return 'Email can\t be empty';
+                      }
+                      return null;
+                    },
                     controller: emailController,
                     labeltext: 'email',
                     type: TextInputType.emailAddress),
@@ -66,6 +72,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 20,
                 ),
                 DefaultTextForm(
+                    validate: (value) {
+                      if (value!.isEmpty) {
+                        return 'Password can\t be empty';
+                      } else if (value.length <= 3) {
+                        return 'Can\t less than 4 characters';
+                      }
+                      return null;
+                    },
                     controller: passwordController,
                     labeltext: 'password',
                     type: TextInputType.visiblePassword),
@@ -77,10 +91,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: "LOGIN",
                     isUperCase: true,
                     function: () async {
-                      await login(
-                        email: emailController.text,
-                        password: passwordController.text,
-                      );
+                      if (formKey.currentState!.validate()) {
+                        await login(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        );
+                      }
                     }),
                 const SizedBox(
                   height: 30,

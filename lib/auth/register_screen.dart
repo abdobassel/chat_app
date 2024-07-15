@@ -15,7 +15,7 @@ TextEditingController emailController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
 
 TextEditingController nameController = TextEditingController();
-GlobalKey formKey = GlobalKey<FormState>();
+GlobalKey<FormState> formKey = GlobalKey();
 
 class _RegisterScreenState extends State<RegisterScreen> {
   @override
@@ -58,13 +58,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 20,
                 ),
                 DefaultTextForm(
-                    controller: nameController,
-                    labeltext: 'Name',
-                    type: TextInputType.emailAddress),
-                const SizedBox(
-                  height: 10,
-                ),
-                DefaultTextForm(
+                    validate: (value) {
+                      if (value!.isEmpty) {
+                        return 'email can\t be empty';
+                      }
+                      return null;
+                    },
                     controller: emailController,
                     labeltext: 'email',
                     type: TextInputType.emailAddress),
@@ -72,6 +71,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 10,
                 ),
                 DefaultTextForm(
+                    validate: (value) {
+                      if (value!.isEmpty) {
+                        return 'Password can\t be empty';
+                      } else if (value!.length <= 3) {
+                        return 'A7a';
+                      }
+                      return null;
+                    },
                     controller: passwordController,
                     labeltext: 'password',
                     type: TextInputType.visiblePassword),
