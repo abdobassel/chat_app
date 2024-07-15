@@ -3,6 +3,7 @@ import 'package:chat_app/auth/functions/register.dart';
 import 'package:chat_app/colors.dart';
 import 'package:chat_app/components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_conditional_rendering/conditional.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -16,6 +17,7 @@ TextEditingController passwordController = TextEditingController();
 
 TextEditingController nameController = TextEditingController();
 GlobalKey<FormState> formKey = GlobalKey();
+bool isLoading = false;
 
 class _RegisterScreenState extends State<RegisterScreen> {
   @override
@@ -74,8 +76,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     validate: (value) {
                       if (value!.isEmpty) {
                         return 'Password can\t be empty';
-                      } else if (value!.length <= 3) {
-                        return 'A7a';
                       }
                       return null;
                     },
@@ -83,17 +83,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     labeltext: 'password',
                     type: TextInputType.visiblePassword),
                 const SizedBox(
-                  height: 15,
+                  height: 20,
                 ),
-                DefaultButton(
-                    background: Colors.white,
-                    text: "Register",
-                    isUperCase: true,
-                    function: () async {
-                      await register(
-                          email: emailController.text,
-                          password: passwordController.text);
-                    }),
+                Conditional.single(
+                  conditionBuilder: (context) => isLoading == false,
+                  context: context,
+                  fallbackBuilder: (context) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  widgetBuilder: (context) => DefaultButton(
+                      background: Colors.white,
+                      text: "Register",
+                      isUperCase: true,
+                      radius: 15,
+                      function: () async {
+                        if (formKey.currentState!.validate()) {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await register(
+                            email: emailController.text,
+                            password: passwordController.text,
+                          );
+                        }
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }),
+                ),
                 const SizedBox(
                   height: 20,
                 ),

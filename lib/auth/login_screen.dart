@@ -5,6 +5,7 @@ import 'package:chat_app/colors.dart';
 import 'package:chat_app/components.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_conditional_rendering/conditional.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,6 +18,7 @@ TextEditingController emailController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
 GlobalKey<FormState> formKey = GlobalKey();
 late final FirebaseAuth auth;
+bool isLoading = false;
 
 class _LoginScreenState extends State<LoginScreen> {
   @override
@@ -86,18 +88,32 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                DefaultButton(
-                    background: Colors.white,
-                    text: "LOGIN",
-                    isUperCase: true,
-                    function: () async {
-                      if (formKey.currentState!.validate()) {
-                        await login(
-                          email: emailController.text,
-                          password: passwordController.text,
-                        );
-                      }
-                    }),
+                Conditional.single(
+                  conditionBuilder: (context) => isLoading == false,
+                  context: context,
+                  fallbackBuilder: (context) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  widgetBuilder: (context) => DefaultButton(
+                      background: Colors.white,
+                      text: "LOGIN",
+                      isUperCase: true,
+                      radius: 15,
+                      function: () async {
+                        if (formKey.currentState!.validate()) {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await login(
+                            email: emailController.text,
+                            password: passwordController.text,
+                          );
+                        }
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }),
+                ),
                 const SizedBox(
                   height: 30,
                 ),
