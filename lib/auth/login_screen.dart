@@ -2,6 +2,7 @@ import 'package:chat_app/assets.dart';
 import 'package:chat_app/auth/register_screen.dart';
 import 'package:chat_app/colors.dart';
 import 'package:chat_app/components.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,6 +15,7 @@ class LoginScreen extends StatefulWidget {
 TextEditingController emailController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
 GlobalKey formKey = GlobalKey<FormState>();
+late final FirebaseAuth auth;
 
 class _LoginScreenState extends State<LoginScreen> {
   @override
@@ -73,8 +75,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     background: Colors.white,
                     text: "LOGIN",
                     isUperCase: true,
-                    function: () {
-                      print("Login");
+                    function: () async {
+                      try {
+                        final credential = await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        );
+                        print('success');
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'user-not-found') {
+                          print('this user not found.');
+                        } else if (e.code == 'wrong-password') {
+                          print('wrong password.');
+                        }
+                      } catch (e) {
+                        print(e);
+                      }
                     }),
                 const SizedBox(
                   height: 30,
