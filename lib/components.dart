@@ -10,6 +10,7 @@ Widget DefaultButton({
   bool isUperCase = true,
   double width = double.infinity,
   Color background = Colors.blue,
+  Color textColor = Colors.black,
   double radius = 10.0,
 }) =>
     Container(
@@ -22,7 +23,8 @@ Widget DefaultButton({
         onPressed: function,
         child: Text(
           isUperCase ? text.toUpperCase() : text,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+              color: textColor, fontWeight: FontWeight.bold, fontSize: 30),
         ),
       ),
     );
@@ -118,8 +120,15 @@ Widget DefaultTextForm({
       controller: controller,
       keyboardType: type,
       decoration: InputDecoration(
+        labelStyle: TextStyle(color: Colors.white),
+        hintStyle: TextStyle(color: Colors.white),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide(color: Colors.white)),
         labelText: labeltext,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide(color: Colors.white)),
         floatingLabelAlignment: FloatingLabelAlignment.center,
         prefix: Icon(
           prefix,
