@@ -1,6 +1,7 @@
 import 'package:chat_app/assets.dart';
 import 'package:chat_app/auth/functions/login.dart';
 import 'package:chat_app/auth/register_screen.dart';
+import 'package:chat_app/chat_screens/chat_screen.dart';
 import 'package:chat_app/colors.dart';
 import 'package:chat_app/components.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -105,6 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             isLoading = true;
                           });
                           await login(
+                            context,
                             email: emailController.text,
                             password: passwordController.text,
                           );

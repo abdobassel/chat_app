@@ -1,8 +1,11 @@
+import 'package:chat_app/chat_screens/chat_screen.dart';
 import 'package:chat_app/components.dart';
 import 'package:chat_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
-Future<void> register({required String email, required String password}) async {
+Future<void> register(context,
+    {required String email, required String password}) async {
   try {
     final credential =
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -10,9 +13,13 @@ Future<void> register({required String email, required String password}) async {
       password: password,
     );
     token = credential.user!.uid;
-    print(credential.user!.uid);
+
     print('success register');
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => ChatScreen()));
+
     print(token);
+
     ShowToast(text: 'Registerd Success', state: ToastStates.SUCCESS);
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {

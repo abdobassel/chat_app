@@ -102,6 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             isLoading = true;
                           });
                           await register(
+                            context,
                             email: emailController.text,
                             password: passwordController.text,
                           );

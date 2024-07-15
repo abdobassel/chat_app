@@ -1,13 +1,18 @@
+import 'package:chat_app/chat_screens/chat_screen.dart';
 import 'package:chat_app/components.dart';
 import 'package:chat_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
-Future<void> login({required String email, required String password}) async {
+Future<void> login(context,
+    {required String email, required String password}) async {
   try {
     final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => ChatScreen()));
     print(credential.user!.uid);
     token = credential.user!.uid;
 
