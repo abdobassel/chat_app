@@ -111,6 +111,7 @@ Widget DefaultTextForm({
   Function()? onTap,
 }) =>
     TextFormField(
+      style: TextStyle(color: Colors.white),
       onTap: onTap,
       onChanged: onchange,
       obscureText: isPassword,

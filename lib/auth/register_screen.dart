@@ -1,4 +1,5 @@
 import 'package:chat_app/assets.dart';
+import 'package:chat_app/auth/functions/register.dart';
 import 'package:chat_app/colors.dart';
 import 'package:chat_app/components.dart';
 import 'package:flutter/material.dart';
@@ -81,8 +82,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     background: Colors.white,
                     text: "Register",
                     isUperCase: true,
-                    function: () {
-                      print("Login");
+                    function: () async {
+                      await register(
+                          email: emailController.text,
+                          password: passwordController.text);
                     }),
                 const SizedBox(
                   height: 20,

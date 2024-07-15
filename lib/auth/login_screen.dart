@@ -1,4 +1,5 @@
 import 'package:chat_app/assets.dart';
+import 'package:chat_app/auth/functions/login.dart';
 import 'package:chat_app/auth/register_screen.dart';
 import 'package:chat_app/colors.dart';
 import 'package:chat_app/components.dart';
@@ -24,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: ColorClass.backgroundColor,
       appBar: AppBar(
         title: Text(
-          'Login',
+          'L O G I N ',
           style: TextStyle(color: ColorClass.mainText, fontSize: 25),
         ),
         backgroundColor: ColorClass.backgroundColor,
@@ -76,22 +77,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: "LOGIN",
                     isUperCase: true,
                     function: () async {
-                      try {
-                        final credential = await FirebaseAuth.instance
-                            .signInWithEmailAndPassword(
-                          email: emailController.text,
-                          password: passwordController.text,
-                        );
-                        print('success');
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'user-not-found') {
-                          print('this user not found.');
-                        } else if (e.code == 'wrong-password') {
-                          print('wrong password.');
-                        }
-                      } catch (e) {
-                        print(e);
-                      }
+                      await login(
+                        email: emailController.text,
+                        password: passwordController.text,
+                      );
                     }),
                 const SizedBox(
                   height: 30,
