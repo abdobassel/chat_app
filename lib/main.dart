@@ -1,6 +1,7 @@
 import 'package:chat_app/auth/login_screen.dart';
 import 'package:chat_app/chat_screens/chats.dart';
 import 'package:chat_app/firebase_options.dart';
+import 'package:chat_app/init_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: InitialScreen(),
     );
   }
 }
