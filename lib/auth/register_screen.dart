@@ -62,6 +62,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 DefaultTextForm(
                     validate: (value) {
                       if (value!.isEmpty) {
+                        return 'name can\t be empty';
+                      }
+                      return null;
+                    },
+                    controller: nameController,
+                    labeltext: 'name',
+                    type: TextInputType.name),
+                const SizedBox(
+                  height: 10,
+                ),
+                DefaultTextForm(
+                    validate: (value) {
+                      if (value!.isEmpty) {
                         return 'email can\t be empty';
                       }
                       return null;
@@ -103,6 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           });
                           await register(
                             context,
+                            name: nameController.text,
                             email: emailController.text,
                             password: passwordController.text,
                           );
